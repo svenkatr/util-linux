@@ -67,6 +67,7 @@ struct blkid_struct_topology {
 	unsigned long	optimal_io_size;
 	unsigned long	logical_sector_size;
 	unsigned long	physical_sector_size;
+	unsigned long	erase_block_size;
 };
 
 /*
@@ -309,6 +310,14 @@ int blkid_topology_set_physical_sector_size(blkid_probe pr, unsigned long val)
 			val);
 }
 
+int blkid_topology_set_erase_block_size(blkid_probe pr, unsigned long val)
+{
+	return topology_set_value(pr,
+			"ERASE_BLOCK_SIZE",
+			offsetof(struct blkid_struct_topology, erase_block_size),
+			val);
+}
+
 /**
  * blkid_topology_get_alignment_offset:
  * @tp: topology
@@ -362,5 +371,15 @@ unsigned long blkid_topology_get_logical_sector_size(blkid_topology tp)
 unsigned long blkid_topology_get_physical_sector_size(blkid_topology tp)
 {
 	return tp ? tp->physical_sector_size : 0;
+}
+
+/**
+ * blkid_topology_get_erase_block_size
+ * @tp: topology
+ * Returns: Erase block size property of flash devices in bytes or 0.
+ */
+unsigned long blkid_topology_get_erase_block_size(blkid_topology tp)
+{
+	return tp ? tp->erase_block_size: 0;
 }
 
