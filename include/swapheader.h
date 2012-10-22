@@ -21,7 +21,12 @@ struct swap_header_v1_2 {
 	unsigned int  nr_badpages;
 	unsigned char uuid[SWAP_UUID_LENGTH];
 	char	      volume_name[SWAP_LABEL_LENGTH];
-	unsigned int  padding[117];
+	union {
+		struct {
+			unsigned int erase_blk_size;
+		} blkdevinfo;
+		unsigned int  padding[117];
+	} swp_headerinfo ;
 	unsigned int  badpages[1];
 };
 
